@@ -35,13 +35,6 @@ def getCityFromTo(key: str):
 
 def kruskal(g: Graph):
     union = SimpleUnionFind()
-    #####
-    # print(list(g.graphDistance.keys())[0])
-    # city_from, city_to = getCityFromTo(list(g.graphDistance.keys())[0])
-    # print(city_from)
-    # print(city_to)
-    # print(g.graphDistance[f"{city_from}-{city_to}"])
-    #####
     a = []
     for v in g.nodes:
         union.makeSet(v)
@@ -67,7 +60,7 @@ if __name__ == "__main__":
     a = kruskal(g)
     print(a)
 
-    #####
+    ##### GRAPH #####
     G = nx.Graph()
     for i in range(len(cities)):
         G.add_node(i)
@@ -77,5 +70,5 @@ if __name__ == "__main__":
         G.add_edge(u,v)
         
     nx.draw(G, with_labels=True)
-    plt.savefig("img.png")
+    plt.savefig("img10.png")
     plt.show()

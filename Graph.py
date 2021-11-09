@@ -19,7 +19,6 @@ class Graph:
         for i in range(len(nodes)):
             for j in range(len(nodes)):
                 if i != j:
-                    self.graphDistance[f"{i}-{j}"] = 0
                     self.graphDistance[f"{i}-{j}"] = nodes[i].distanceToCity(nodes[j])
 
         # print("________ index tab ________")
