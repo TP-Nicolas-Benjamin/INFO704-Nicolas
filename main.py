@@ -1,3 +1,6 @@
+import networkx as nx
+import matplotlib.pyplot as plt
+
 from City import City
 from Graph import Graph
 from UnionFind import SimpleUnionFind
@@ -60,4 +63,19 @@ if __name__ == "__main__":
     g = Graph(cities)
     
     print(dict(sorted(g.graphDistance.items(), key=lambda item: item[1])))
-    print(kruskal(g))
+
+    a = kruskal(g)
+    print(a)
+
+    #####
+    G = nx.Graph()
+    for i in range(len(cities)):
+        G.add_node(i)
+    
+    for arete in a:
+        u,v = getCityFromTo(arete)
+        G.add_edge(u,v)
+        
+    nx.draw(G, with_labels=True)
+    plt.savefig("img.png")
+    plt.show()
