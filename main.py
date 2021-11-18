@@ -48,27 +48,35 @@ def kruskal(g: Graph):
 
     return a
 
+def parcoursKruskal(tabAretes):
+    """
+        Parcourir mes aretes à partir de 0 et faire en sorte de revenir à 0
+    """
+    pass
+
 
 if __name__ == "__main__":
-    read_file("Cities10.txt")
+    read_file("Cities20.txt")
     link_cities(cities)
 
     g = Graph(cities)
     
     print(dict(sorted(g.graphDistance.items(), key=lambda item: item[1])))
 
-    a = kruskal(g)
-    print(a)
+    tabAretes = kruskal(g)
+    cycle = parcoursKruskal(tabAretes)
+
+    print(tabAretes)
 
     ##### GRAPH #####
     G = nx.Graph()
     for i in range(len(cities)):
         G.add_node(i)
     
-    for arete in a:
+    for arete in tabAretes:
         u,v = getCityFromTo(arete)
         G.add_edge(u,v)
         
     nx.draw(G, with_labels=True)
-    plt.savefig("img10.png")
+    plt.savefig("img20.png")
     plt.show()

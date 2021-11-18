@@ -17,7 +17,7 @@ class Graph:
                     self.graphNodes[i].append(j)
 
         for i in range(len(nodes)):
-            for j in range(len(nodes)):
+            for j in range(i, len(nodes)):
                 if i != j:
                     self.graphDistance[f"{i}-{j}"] = nodes[i].distanceToCity(nodes[j])
 
