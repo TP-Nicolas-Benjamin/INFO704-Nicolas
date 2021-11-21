@@ -1,3 +1,4 @@
+from os import link
 import networkx as nx
 import matplotlib.pyplot as plt
 
@@ -6,28 +7,18 @@ from Graph import Graph
 from UnionFind import SimpleUnionFind
 
 cities = []
-links = []
-base = City()
 
 def read_file(file_name: str):
-    global base
-    # Using readlines()
     file = open(file_name, 'r')
     Lines = file.readlines()
     
-    # Strips the newline character
+    id = 0
     for line in Lines:
         l = line.split(" ")
-        v = City( int(l[0]), int(l[1]) )
+        v = City(id, int(l[0]), int(l[1]) )
         cities.append(v)
-    
-    base = cities[0]
+        id += 1
     # cities.remove(cities[0])
-
-def link_cities(cities: list[City]):
-    for i in range(len(cities)):
-        dist = cities[i].distanceToCity(cities[(i+1)%len(cities)])
-        links.append(dist)
 
 def getCityFromTo(key: str):
     s = key.split("-")
@@ -36,47 +27,63 @@ def getCityFromTo(key: str):
 def kruskal(g: Graph):
     union = SimpleUnionFind()
     a = []
-    for v in g.nodes:
+    for v in g.cities:
         union.makeSet(v)
     
     g.graphDistance = dict(sorted(g.graphDistance.items(), key=lambda item: item[1]))
     for arete in g.graphDistance:
         u,v = getCityFromTo(arete)
-        if union.find(g.nodes[u]) != union.find(g.nodes[v]):
+        if union.find(g.cities[u]) != union.find(g.cities[v]):
             a.append(arete)
-            union.union(g.nodes[u], g.nodes[v])
+            union.union(g.cities[u], g.cities[v])
 
     return a
 
-def parcoursKruskal(tabAretes):
-    """
-        Parcourir mes aretes à partir de 0 et faire en sorte de revenir à 0
-    """
-    pass
+def parcoursKruskal(cycle_array, n: City):
+    cycle = cycle_array
+
+    if not n.children:
+        cycle.append(n.id)
+        return cycle
+    else:
+        for child in n.children:
+            if not(n.id in cycle):
+                cycle.append(n.id)
+            cycle = parcoursKruskal(cycle, child)
+
+    return cycle
 
 
 if __name__ == "__main__":
-    read_file("Cities20.txt")
-    link_cities(cities)
+    read_file("Cities10.txt")
 
     g = Graph(cities)
     
-    print(dict(sorted(g.graphDistance.items(), key=lambda item: item[1])))
-
+    g.graphDistance = dict(sorted(g.graphDistance.items(), key=lambda item: item[1]))
     tabAretes = kruskal(g)
-    cycle = parcoursKruskal(tabAretes)
 
-    print(tabAretes)
+    noParentNode = g.cities[0]
+    for n in g.cities:
+        if n.parent == None:
+            noParentNode = n
+            break
+
+    cycle = parcoursKruskal([], noParentNode)
+    cycle.append(noParentNode.id)
+
+    print(f"ARETES TRIÉES :\n{tabAretes}")
+    print(f"CYCLE TROUVÉ :\n{cycle}")
 
     ##### GRAPH #####
-    G = nx.Graph()
-    for i in range(len(cities)):
-        G.add_node(i)
-    
-    for arete in tabAretes:
-        u,v = getCityFromTo(arete)
-        G.add_edge(u,v)
+    # G = nx.Graph()
+    # for n in g.cities:
+    #     G.add_node(n.id)
+
+    # for n in g.cities:
+    #     if n.parent != None:
+    #         G.add_edge(n.id, n.parent.id)
         
-    nx.draw(G, with_labels=True)
-    plt.savefig("img20.png")
-    plt.show()
+    # nx.draw(G, with_labels=True)
+    # plt.text(-10,-10, cycle, bbox=dict(fill=False, edgecolor='red', linewidth=2))
+    # plt.savefig("parents10.png")
+    # plt.show()

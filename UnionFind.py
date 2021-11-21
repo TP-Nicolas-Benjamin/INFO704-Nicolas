@@ -17,7 +17,9 @@ class SimpleUnionFind:
         yRacine = self.find(y)
         if xRacine != yRacine:
             xRacine.parent = yRacine
+            yRacine.children.append(xRacine)
 
+# NOT FINISHED NOR USED
 class EnhancedUnionFind:
     "A better way to implement Union Find"
 
