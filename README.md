@@ -15,7 +15,7 @@
 ![](./parents10.png)
 ![](./parents20.png)
 
-Les cycles obtenus sont :
+Les cycles obtenus sont :<br>
 `[9, 0, 7, 3, 6, 10, 4, 5, 2, 1, 8, 9]` pour le fichier Cities10 <br>
 `[9, 8, 20, 19, 10, 1, 15, 18, 14, 13, 4, 16, 0, 3, 17, 12, 5, 6, 2, 11, 7, 9]` pour le fichier Cities20<br>
 
