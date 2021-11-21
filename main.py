@@ -55,7 +55,7 @@ def parcoursKruskal(cycle_array, n: City):
 
 
 if __name__ == "__main__":
-    read_file("Cities10.txt")
+    read_file("Cities20.txt")
 
     g = Graph(cities)
     
